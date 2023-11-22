@@ -3,6 +3,7 @@ package net.javaguides.springboot.service.impl;
 import lombok.AllArgsConstructor;
 import net.javaguides.springboot.dto.UserDto;
 import net.javaguides.springboot.entity.User;
+import net.javaguides.springboot.mapper.UserMapper;
 import net.javaguides.springboot.repository.UserRepository;
 import net.javaguides.springboot.service.UserService;
 import org.springframework.stereotype.Service;
@@ -18,20 +19,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto createUser(UserDto userDto) {
         //convert UserDTO into User JPA Entity
-        User user = new User(
-                userDto.getId(),
-                userDto.getFirstName(),
-                userDto.getLastName(),
-                userDto.getEmail()
-        );
+        User user = UserMapper.mapToUser(userDto);
         User savedUser = userRepository.save(user);
+
         //convert User JPA entity to UserDto
-        UserDto savedUserDto = new UserDto(
-                savedUser.getId(),
-                savedUser.getFirstName(),
-                savedUser.getLastName(),
-                savedUser.getEmail()
-        );
+        UserDto savedUserDto = UserMapper.mapToUserDto(savedUser);
         return savedUserDto;
     }
 
