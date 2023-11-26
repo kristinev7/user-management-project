@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @ControllerAdvice //handle exceptions globally
 public class GlobalExceptionHandler {
-//    annotation used to handle the specific exceptions and sending the custom response to the client
+   /*annotation used to handle the specific exceptions and sending the custom response to the client*/
     @ExceptionHandler(ResourceNotFoundException.class)
      /*handle specific exceptions with respect to the controller*/
         public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ResourceNotFoundException exception, WebRequest webRequest) {
@@ -32,6 +32,18 @@ public class GlobalExceptionHandler {
                 "USER_EMAIL_ALREADY_EXISTS"
         );
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+    /**/
+    @ExceptionHandler(Exception.class)
+    /*handle email already exists*/
+    public ResponseEntity<ErrorDetails> handleGlobalExceptions(Exception exception, WebRequest webRequest) {
+        ErrorDetails errorDetails = new ErrorDetails(
+                LocalDateTime.now(),
+                exception.getMessage(),
+                webRequest.getDescription(false),
+                "INTERNAL SERVER ERROR"
+        );
+        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
