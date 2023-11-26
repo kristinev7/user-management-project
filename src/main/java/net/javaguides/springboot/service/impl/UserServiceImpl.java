@@ -3,6 +3,7 @@ package net.javaguides.springboot.service.impl;
 import lombok.AllArgsConstructor;
 import net.javaguides.springboot.dto.UserDto;
 import net.javaguides.springboot.entity.User;
+import net.javaguides.springboot.exception.EmailAlreadyExistsException;
 import net.javaguides.springboot.exception.ResourceNotFoundException;
 import net.javaguides.springboot.mapper.AutoUserMapper;
 import net.javaguides.springboot.mapper.UserMapper;
@@ -24,23 +25,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto createUser(UserDto userDto) {
-        //convert UserDTO into User JPA Entity
+        /*convert UserDTO into User JPA Entity*/
         //User user = UserMapper.mapToUser(userDto);
 
-        //using modelMapper
-//        User user = modelMapper.map(userDto, User.class);
+        /*using modelMapper*/
+//       User user = modelMapper.map(userDto, User.class);
+        /*check if user email already exists*/
+        Optional<User> optionalUser = userRepository.findByEmail(userDto.getEmail());
+        if(optionalUser.isPresent()) {
+            throw new EmailAlreadyExistsException("Email Already Exists for User");
+        }
 
-//        using mapstruct
+        /*using mapstruct*/
         User user = AutoUserMapper.MAPPER.mapToUser(userDto);
         User savedUser = userRepository.save(user);
 
-        //convert User JPA entity to UserDto
+        /*convert User JPA entity to UserDto*/
         //UserDto savedUserDto = UserMapper.mapToUserDto(savedUser);
 
-        //using modelMapper
+        /*using modelMapper*/
 //        UserDto savedUserDto = modelMapper.map(savedUser, UserDto.class);
 
-//        using mapstruct
+        /*using mapstruct*/
         UserDto savedUserDto =AutoUserMapper.MAPPER.mapToUserDto(savedUser);
         return savedUserDto;
     }

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 //    annotation used to handle the specific exceptions and sending the custom response to the client
     @ExceptionHandler(ResourceNotFoundException.class)
-//    handle specific exceptions with respect to the controller
+     /*handle specific exceptions with respect to the controller*/
         public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ResourceNotFoundException exception, WebRequest webRequest) {
             ErrorDetails errorDetails = new ErrorDetails(
                     LocalDateTime.now(),
@@ -21,6 +21,17 @@ public class GlobalExceptionHandler {
                     "USER_NOT_FOUND"
             );
             return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    /*handle email already exists*/
+    public ResponseEntity<ErrorDetails> handleEmailAlreadyExistsException(EmailAlreadyExistsException exception, WebRequest webRequest) {
+        ErrorDetails errorDetails = new ErrorDetails(
+                LocalDateTime.now(),
+                exception.getMessage(),
+                webRequest.getDescription(false),
+                "USER_EMAIL_ALREADY_EXISTS"
+        );
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
 }
