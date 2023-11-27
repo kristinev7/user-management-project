@@ -1,5 +1,6 @@
 # user-management-project
-Simple project exploring Spring Boot REST APIs using Maven build tool, MySQL Server and Intellij IDE. 
+Simple project exploring Spring Boot REST APIs using Maven build tool, [MySQL Server](https://dev.mysql.com/downloads/mysql/) and [Intellij IDE](https://www.jetbrains.com/idea/). 
+
 Project created using [start.spring.io](https://start.spring.io/).
 
 Other Topics:
